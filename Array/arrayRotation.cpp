@@ -1,36 +1,34 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-void rotate(int arr[], int n, int d) {
-    int temp;
-    d = d%n; // if d >= n
-    int first = arr[0];
-    for (int i = 0; i < n; i++) {
-        temp = arr[i];
+int gcd(int a, int b)
+{
+    if (b == 0)
+        return a;
+    else
+        return gcd(b, a % b);
+}
+ 
+void rotate(int arr[], int d, int n)
+{
+    d = d % n;
+    int g = gcd(d, n);
+    for (int i = 0; i < g; i++) {
+        int temp = arr[i];
         int j = i;
-        int k = j + d;
-        
-        // if rotation is equal to array length
-        if (k == i) {
-            break;
-        }
-        // last round
-        if (k >= n) {
-            k = n-1;
-        }
-        // general rotation or swap
-        if (i == n-2) {
-            if (arr[i] != first) {
-                arr[j] = arr[n-1];
-                arr[n-1] = temp;
+ 
+        while (1) {
+            int k = j + d;
+            if (k >= n)
+                k = k - n;
+ 
+            if (k == i)
                 break;
-            }
-            else {
-                break;
-            }
+ 
+            arr[j] = arr[k];
+            j = k;
         }
-        arr[j] = arr[k];
-        arr[k] = temp;
+        arr[j] = temp;
     }
 }
 
@@ -54,6 +52,6 @@ int main() {
         cin>>arr[i];
     }
 
-    rotate(arr, n, d);
+    rotate(arr, d, n);
     print(arr, n);
 }
